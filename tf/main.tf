@@ -6,12 +6,20 @@ module "networking" {
 }
 
 module "wordpress" {
-  source = "../../Terraform/modules/wordpress/"
+  project     = var.project
+  source      = "../../Terraform/modules/wordpress/"
+  domain_name = "kovalevskyi.space"
+  vpc_id      = module.networking.vpc_properties.id
   db_variables = {
-    storage         = 30
+    db_name         = "wordpress"
     engine          = "MySQL"
+    identifier      = "${var.project}wordpress"
     instance_class  = "db.t3.micro"
     master_username = "root"
+    storage         = 30
+    subnet_group    = module.networking.database_subnet_group_properties.id
+  }
+  wellknown_ip = {
+    YK-home = "193.227.206.114/32"
   }
 }
-
