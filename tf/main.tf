@@ -26,6 +26,7 @@ module "wordpress" {
     public_subnet_id = module.networking.public_subnets_properties[0].id
 
   }
+  wp_admin_email = "kovalevskyi96@gmail.com"
   wellknown_ip = {
     YK-home = "193.227.206.114/32"
   }
