@@ -3,7 +3,7 @@
 # Prerequisites
 
 sudo apt update && sudo apt upgrade -y 
-sudo apt install mysql-client-core-8.0 php-cli php-mysql libapache2-mod-php php php-zip php-redis -y
+sudo apt install mysql-client-core-8.0 php-cli php-mysql libapache2-mod-php php php-zip php-redis
 curl -O https://raw.githubusercontent.com/wp-cli/builds/gh-pages/phar/wp-cli.phar
 chmod +x wp-cli.phar
 sudo mv wp-cli.phar /usr/local/bin/wp
