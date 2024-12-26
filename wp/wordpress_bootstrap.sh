@@ -1,11 +1,9 @@
 #!/bin/bash
 
 # Prerequisites
-## Basic vars for WP server
 
-## Preparing to install
 sudo apt update && sudo apt upgrade -y 
-sudo apt install mysql-client-core-8.0 php-cli php-mysql libapache2-mod-php php php-zip -y
+sudo apt install mysql-client-core-8.0 php-cli php-mysql libapache2-mod-php php php-zip php-redis -y
 curl -O https://raw.githubusercontent.com/wp-cli/builds/gh-pages/phar/wp-cli.phar
 chmod +x wp-cli.phar
 sudo mv wp-cli.phar /usr/local/bin/wp
@@ -60,8 +58,16 @@ sudo sed -i "s/database_name_here/$DB_NAME/" "$WP_DIR"/wp-config.php
 sudo sed -i "s/username_here/$DB_USER/" "$WP_DIR"/wp-config.php
 sudo sed -i "s/password_here/$DB_PASSWORD/" "$WP_DIR"/wp-config.php
 
+# Configure redis
+sudo sed -i "39i\define( 'WP_REDIS_HOST', '$REDIS_ENDPOINT' );" "$WP_DIR"/wp-config.php
+sudo sed -i "40i\define( 'WP_REDIS_PORT', '$REDIS_PORT' );" "$WP_DIR"/wp-config.php 
+
 # Set up WordPress installation
 sudo -u ubuntu -i -- wp --path="$WP_DIR" core install --url="$WP_HOST" --title="$WP_TITLE" --admin_user="$WP_ADMIN_USER" --admin_password="$WP_ADMIN_PASSWORD" --admin_email="$WP_ADMIN_EMAIL"
+
+# Attaching wordpress to redis
+sudo wp --path="$WP_DIR" plugin install redis-cache --activate --allow-root
+sudo wp --path="$WP_DIR" redis enable --allow-root
 
 # Cleanup
 sudo rm -rf /tmp/wordpress.tar.gz /tmp/wordpress
