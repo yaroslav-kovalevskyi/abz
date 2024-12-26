@@ -1,6 +1,5 @@
 module "networking" {
-  #source      = "git::https://github.com/yaroslav-kovalevskyi/Terraform.git//modules/networking"
-  source      = "../../Terraform/modules/networking/"
+  source      = "git::https://github.com/yaroslav-kovalevskyi/Terraform.git//modules/networking"
   environment = terraform.workspace
   project     = var.project
   nat_enabled = false
@@ -8,7 +7,7 @@ module "networking" {
 
 module "wordpress" {
   project         = var.project
-  source          = "../../Terraform/modules/wordpress/"
+  source          = "git::https://github.com/yaroslav-kovalevskyi/Terraform.git//modules/wordpress"
   domain_name     = "kovalevskyi.space"
   private_subnets = values(module.networking.private_subnets_properties)[*].id // cannot be inside redis_variables. Map must contain same (or convertible) data type for all values (string / list)
   vpc_properties = {
