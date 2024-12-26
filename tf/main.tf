@@ -33,15 +33,6 @@ module "wordpress" {
     wp_admin_email   = "kovalevskyi96@gmail.com"
   }
 
-  public_ports = {
-    http  = 80
-    https = 443
-  }
-  internal_ports = {
-    mysql = 3306
-    redis = 6379
-  }
-
   redis_variables = {
     cluster_id           = "${var.project}-redis"
     engine_version       = "7.1"
