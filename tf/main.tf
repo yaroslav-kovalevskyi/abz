@@ -6,10 +6,13 @@ module "networking" {
 }
 
 module "wordpress" {
-  project         = var.project
   source          = "git::https://github.com/yaroslav-kovalevskyi/Terraform.git//modules/wordpress"
-  domain_name     = "kovalevskyi.space"
   private_subnets = values(module.networking.private_subnets_properties)[*].id // cannot be inside redis_variables. Map must contain same (or convertible) data type for all values (string / list)
+  general = {
+    project     = var.project
+    domain_name = "kovalevskyi.space"
+  }
+
   vpc_properties = {
     vpc_id     = module.networking.vpc_properties.id
     cidr_block = module.networking.vpc_properties.cidr_block
