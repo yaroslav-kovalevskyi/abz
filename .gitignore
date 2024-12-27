@@ -1,5 +1,5 @@
 # Folder with SSH keys created during deployment
-ssh/
+ssh/*.pem
 
 # Terraform state related files
 .t*
